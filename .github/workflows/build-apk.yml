@@ -37,7 +37,7 @@ jobs:
         uses: nttld/setup-ndk@v1
         id: ndk
         with:
-          ndk-version: r26d
+          ndk-version: r28c
           add-to-path: true
           link-to-sdk: true
 
@@ -49,6 +49,13 @@ jobs:
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
+
+      - name: Prepare Gradle wrapper
+        run: |
+          wrapper="$FLUTTER_ROOT/bin/cache/artifacts/gradle_wrapper"
+          test -d "$wrapper" || flutter precache
+          cp -R "$wrapper/." android/
+          chmod +x android/gradlew
 
       - name: Prepare Android config
         working-directory: android
@@ -64,23 +71,18 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Create default env
-        run: |
-          echo '{"APP_ENV":"stable"}' > env.json
-
-      - name: Build APK (Split ABI & Universal)
+      - name: Build VPN1S APKs
         env:
           ANDROID_NDK_HOME: ${{ steps.ndk.outputs.ndk-path }}
         run: |
-          # Build split ABIs (arm64-v8a, armeabi-v7a, x86_64)
-          flutter build apk --release --split-per-abi -v
-          # Build universal APK
-          flutter build apk --release -v
+          dart setup.dart android --env stable -v
 
-      - name: Organize APK Artifacts
+      - name: Collect APK Files
         run: |
           mkdir -p output-apk
-          cp build/app/outputs/flutter-apk/*.apk output-apk/
+          # Copy from dist/ or build/ outputs
+          find dist/ -name "*.apk" -exec cp {} output-apk/ \; 2>/dev/null || true
+          find build/ -name "*.apk" -exec cp {} output-apk/ \; 2>/dev/null || true
           ls -la output-apk/
 
       - name: Upload APK Artifacts
