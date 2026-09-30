@@ -119,6 +119,7 @@ extension LocaleL10n on Locale {
   String get label {
     final appLocalizations = currentAppLocalizations;
     return switch (toString()) {
+      'vi' => 'Tiếng Việt',
       'en' => appLocalizations.en,
       'ja' => appLocalizations.ja,
       'ru' => appLocalizations.ru,

@@ -67,6 +67,15 @@ class AboutView extends ConsumerWidget {
           },
         ),
         ListItem(
+          title: const Text('Nhóm hỗ trợ Zalo'),
+          subtitle: const Text('Hỗ trợ kỹ thuật & giải đáp thắc mắc'),
+          leading: const Icon(Icons.chat_bubble_outline_sharp, color: Colors.teal),
+          onTap: () {
+            dialogs.openUrl('https://zalo.me/g/hqneiv386');
+          },
+          trailing: const Icon(Icons.launch),
+        ),
+        ListItem(
           title: const Text('Cộng đồng Telegram'),
           leading: const Icon(Icons.telegram_sharp, color: Colors.lightBlue),
           onTap: () {

@@ -126,7 +126,7 @@ class Bootstrap {
     container.read(profilesProvider.notifier).setAndReorder(profiles);
     await AppLocalizations.load(
       getLocaleForString(config.appSettingProps.locale) ??
-          WidgetsBinding.instance.platformDispatcher.locale,
+          const Locale('vi'),
     );
     await window?.init(version, config.windowProps);
     if (system.isAndroid) {
