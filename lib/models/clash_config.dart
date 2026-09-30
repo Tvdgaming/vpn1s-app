@@ -312,7 +312,7 @@ abstract class Dns with _$Dns {
     @Default(true) @JsonKey(name: 'use-system-hosts') bool useSystemHosts,
     @Default(false) @JsonKey(name: 'respect-rules') bool respectRules,
     @Default(false) bool ipv6,
-    @Default(['223.5.5.5'])
+    @Default(['1.1.1.1', '8.8.8.8'])
     @JsonKey(name: 'default-nameserver')
     List<String> defaultNameserver,
     @Default(DnsMode.fakeIp)
@@ -324,17 +324,18 @@ abstract class Dns with _$Dns {
     @Default(['*.lan', 'localhost.ptlogin2.qq.com'])
     @JsonKey(name: 'fake-ip-filter')
     List<String> fakeIpFilter,
-    @Default({
-      'www.baidu.com': '114.114.114.114',
-      '+.internal.crop.com': '10.0.0.1',
-      'geosite:cn': 'https://doh.pub/dns-query',
-    })
+    @Default({})
     @JsonKey(name: 'nameserver-policy')
     Map<String, String> nameserverPolicy,
-    @Default(['https://doh.pub/dns-query', 'https://dns.alidns.com/dns-query'])
+    @Default([
+      'https://cloudflare-dns.com/dns-query',
+      'https://dns.google/dns-query',
+      '1.1.1.1',
+      '8.8.8.8',
+    ])
     List<String> nameserver,
-    @Default(['tls://8.8.4.4', 'tls://1.1.1.1']) List<String> fallback,
-    @Default(['https://doh.pub/dns-query'])
+    @Default(['tls://1.1.1.1', 'tls://8.8.8.8']) List<String> fallback,
+    @Default(['https://cloudflare-dns.com/dns-query', '1.1.1.1'])
     @JsonKey(name: 'proxy-server-nameserver')
     List<String> proxyServerNameserver,
     @Default(FallbackFilter())

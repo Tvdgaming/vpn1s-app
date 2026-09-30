@@ -230,7 +230,7 @@ _Dns _$DnsFromJson(Map<String, dynamic> json) => _Dns(
       (json['default-nameserver'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList() ??
-      const ['223.5.5.5'],
+      const ['1.1.1.1', '8.8.8.8'],
   enhancedMode:
       $enumDecodeNullable(_$DnsModeEnumMap, json['enhanced-mode']) ??
       DnsMode.fakeIp,
@@ -244,24 +244,25 @@ _Dns _$DnsFromJson(Map<String, dynamic> json) => _Dns(
       (json['nameserver-policy'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, e as String),
       ) ??
-      const {
-        'www.baidu.com': '114.114.114.114',
-        '+.internal.crop.com': '10.0.0.1',
-        'geosite:cn': 'https://doh.pub/dns-query',
-      },
+      const {},
   nameserver:
       (json['nameserver'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList() ??
-      const ['https://doh.pub/dns-query', 'https://dns.alidns.com/dns-query'],
+      const [
+        'https://cloudflare-dns.com/dns-query',
+        'https://dns.google/dns-query',
+        '1.1.1.1',
+        '8.8.8.8',
+      ],
   fallback:
       (json['fallback'] as List<dynamic>?)?.map((e) => e as String).toList() ??
-      const ['tls://8.8.4.4', 'tls://1.1.1.1'],
+      const ['tls://1.1.1.1', 'tls://8.8.8.8'],
   proxyServerNameserver:
       (json['proxy-server-nameserver'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList() ??
-      const ['https://doh.pub/dns-query'],
+      const ['https://cloudflare-dns.com/dns-query', '1.1.1.1'],
   fallbackFilter: json['fallback-filter'] == null
       ? const FallbackFilter()
       : FallbackFilter.fromJson(
