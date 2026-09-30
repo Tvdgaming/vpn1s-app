@@ -80,15 +80,20 @@ jobs:
       - name: Collect APK Files
         run: |
           mkdir -p output-apk
-          # Copy from dist/ or build/ outputs
-          find dist/ -name "*.apk" -exec cp {} output-apk/ \; 2>/dev/null || true
-          find build/ -name "*.apk" -exec cp {} output-apk/ \; 2>/dev/null || true
+          # Copy only arm64-v8a APK (smallest, most common architecture)
+          find dist/ -name "*arm64*release*.apk" -exec cp {} output-apk/ \; 2>/dev/null || true
+          find build/ -name "*arm64*release*.apk" -exec cp {} output-apk/ \; 2>/dev/null || true
+          # Fallback: if no arm64 found, copy all APKs
+          if [ -z "$(ls output-apk/*.apk 2>/dev/null)" ]; then
+            find dist/ -name "*.apk" -exec cp {} output-apk/ \; 2>/dev/null || true
+            find build/ -name "*.apk" -exec cp {} output-apk/ \; 2>/dev/null || true
+          fi
           ls -la output-apk/
 
       - name: Upload APK Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: VPN1S-Android-Release-APKs
+          name: VPN1S-arm64-v8a-Release
           path: output-apk/*.apk
           if-no-files-found: error
 
